@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:flutter_firebease_login/Screens/Privacy.dart';
+import 'package:flutter_firebease_login/Screens/privacy.dart';
 import 'package:flutter_firebease_login/Screens/after_login_page.dart';
 import 'package:flutter_firebease_login/Screens/login.dart';
 import 'package:flutter_firebease_login/Services/user.dart';
@@ -107,7 +107,7 @@ class _SignUpState extends State<SignUp> {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AfterLoginPage(),
+                    builder: (context) => const AfterLoginPage(),
                   ),
                 );
               }
@@ -185,7 +185,7 @@ class _SignUpState extends State<SignUp> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => Privacy(),
+                                      builder: (context) => const Privacy(),
                                     ))
                               },
                               child: Text(
@@ -211,7 +211,7 @@ class _SignUpState extends State<SignUp> {
           ),
         ),
         bottomNavigationBar: Container(
-          padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
           height: 100,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,

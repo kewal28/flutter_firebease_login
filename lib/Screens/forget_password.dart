@@ -1,11 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_firebease_login/Screens/login.dart';
 import 'package:flutter_firebease_login/Services/user.dart';
 import 'package:flutter_firebease_login/config.dart';
 import 'package:flutter_firebease_login/utils.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 
 class ForgetPassword extends StatefulWidget {
@@ -118,7 +116,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
           ),
         ),
         bottomNavigationBar: Container(
-          padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
           height: 100,
           child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             const Text(

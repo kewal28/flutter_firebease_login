@@ -1,10 +1,14 @@
-# flutter_firebease_login
+# Flutter Firebease Login
+
+In this app we will create login, signup and forget password using firebase flutter project.
+
+Flutter Version: 2.10.4
 
 ## Getting Started
 
 This project is a starting point for a Flutter application.
 
-Package used in this app.
+## Package used in this app.
 
 ```
 firebase_core: ^1.13.1
@@ -14,22 +18,22 @@ fluttertoast: ^7.1.6
 keyboard_dismisser: ^2.0.1
 ```
 
-First You have to clone this repo.
+## First You have to clone this repo.
 
 ```
 git clone https://github.com/kewal28/flutter_firebease_login.git
 ```
 
-To get Package from run below command
+## To get Package from run below command
 
 ```
 flutter pub get
 ```
 
-We have to update android minSdkVersion.
+## We have to update android minSdkVersion.
 
 ```
-│ flutter_firebease_login/android/app/build.gradle:       │
+│ flutter_firebease_login/android/app/build.gradle:                                             │
 │ android {                                                                                     │
 │   defaultConfig {                                                                             │
 │     minSdkVersion 21                                                                          │
@@ -37,7 +41,8 @@ We have to update android minSdkVersion.
 │ } 
 ```
 
-Directory 
+## Directory structure
+
 ```
 lib
 ├── Models
@@ -61,7 +66,18 @@ lib
 └── utils.dart
 ```
 
-Where to fin
+## How to create firebase project.
+
+Follow the steps below. Open the Firebase console.
+
+Click "Add Project".
+
+## Where to find aplication key this will need when we create firebase application.
+
+```
+Path :- android/app/build.gradle
+```
+
 google()  // Google's Maven repository
 
 classpath 'com.google.gms:google-services:4.3.10'

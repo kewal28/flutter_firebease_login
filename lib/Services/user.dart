@@ -25,6 +25,9 @@ class UserService {
           case "invalid-email":
             errorMessage = "Your email address appears to be malformed.";
             break;
+          case "email-already-in-use":
+            errorMessage = "Email address already in use.";
+            break;
           case "wrong-password":
             errorMessage = "Your password is wrong.";
             break;
@@ -60,7 +63,7 @@ class UserService {
         password: password,
       )
           .then((uuid) async {
-        await saveProfileData(name.trim(), phone);
+        saveProfileData(name.trim(), phone);
         await singIn(email, password);
       });
       return true;

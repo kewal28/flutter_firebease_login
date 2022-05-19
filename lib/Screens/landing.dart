@@ -22,7 +22,7 @@ class _LandingState extends State<Landing> {
       Timer(
           const Duration(seconds: 3),
           () => Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => AfterLoginPage())));
+              MaterialPageRoute(builder: (context) => const AfterLoginPage())));
     } else {
       Timer(
           const Duration(seconds: 3),
