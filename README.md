@@ -78,8 +78,5 @@ Click "Add Project".
 Path :- android/app/build.gradle
 ```
 
-google()  // Google's Maven repository
+Follow on screen instructions.
 
-classpath 'com.google.gms:google-services:4.3.10'
-
-apply plugin: 'com.google.gms.google-services'
