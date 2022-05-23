@@ -34,26 +34,15 @@ class _ForgetPasswordState extends State<ForgetPassword> {
     final emailField = Utils.getFormField("Email", validationEmail,
         emailController, const Icon(Icons.email_outlined),
         keyboardType: TextInputType.emailAddress);
+    final forgetPasswordButton =
+        Utils.getFormButton("Forget Password", onPress: () async {
+      if (_fromForgetPassword.currentState.validate()) {
+        await userService.forgetPassword(emailController.text);
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => const Login()));
+      }
+    });
 
-    final forgetPasswordButton = Material(
-      child: ElevatedButton.icon(
-          style: ButtonStyle(
-            backgroundColor:
-                MaterialStateProperty.all<Color>(Config.baseColorDart),
-          ),
-          label: const Text("Forget Password"),
-          icon: const Icon(
-            Icons.arrow_right,
-            color: Colors.white,
-          ),
-          onPressed: () async {
-            if (_fromForgetPassword.currentState.validate()) {
-              await userService.forgetPassword(emailController.text);
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => const Login()));
-            }
-          }),
-    );
     double width = 100;
     MediaQueryData mediaQuery;
     if (!kIsWeb) {
@@ -118,29 +107,37 @@ class _ForgetPasswordState extends State<ForgetPassword> {
         bottomNavigationBar: Container(
           padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
           height: 100,
-          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            const Text(
-              "Already have an account?",
-              style: TextStyle(fontSize: 18),
-            ),
-            const SizedBox(
-              width: 5,
-            ),
-            GestureDetector(
-                onTap: () => {
-                      Navigator.pushReplacement(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                "Already have an account?",
+                style: TextStyle(fontSize: 18),
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              GestureDetector(
+                  onTap: () => {
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Login()))
-                    },
-                child: Text(
-                  "Login",
-                  style: TextStyle(color: Config.baseColorDart, fontSize: 18),
-                )),
-            const SizedBox(
-              height: 20,
-            )
-          ]),
+                            builder: (context) => const Login(),
+                          ),
+                        )
+                      },
+                  child: Text(
+                    "Login",
+                    style: TextStyle(
+                      color: Config.baseColorDart,
+                      fontSize: 18,
+                    ),
+                  )),
+              const SizedBox(
+                height: 20,
+              )
+            ],
+          ),
         ),
       ),
     );

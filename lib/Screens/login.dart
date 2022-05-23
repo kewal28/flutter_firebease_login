@@ -55,35 +55,21 @@ class _LoginState extends State<Login> {
             });
           },
         ));
+    final loginButton = Utils.getFormButton("Login", onPress: () async {
+      if (_fromLogin.currentState.validate()) {
+        await userService.singIn(emailController.text, passwordController.text);
+        if (utils.checkUserLogin(context)) {
+          Fluttertoast.showToast(msg: Config.loginMsg);
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AfterLoginPage(),
+            ),
+          );
+        }
+      }
+    });
 
-    final loginButton = Material(
-      child: ElevatedButton.icon(
-        style: ButtonStyle(
-          backgroundColor:
-              MaterialStateProperty.all<Color>(Config.baseColorDart),
-        ),
-        label: const Text("Login"),
-        icon: const Icon(
-          Icons.arrow_right,
-          color: Colors.white,
-        ),
-        onPressed: () async {
-          if (_fromLogin.currentState.validate()) {
-            await userService.singIn(
-                emailController.text, passwordController.text);
-            if (utils.checkUserLogin(context)) {
-              Fluttertoast.showToast(msg: Config.loginMsg);
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const AfterLoginPage(),
-                ),
-              );
-            }
-          }
-        },
-      ),
-    );
     double width = 100;
     MediaQueryData mediaQuery;
     if (!kIsWeb) {

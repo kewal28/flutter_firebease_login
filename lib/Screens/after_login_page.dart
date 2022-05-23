@@ -5,7 +5,7 @@ import 'package:flutter_firebease_login/config.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class AfterLoginPage extends StatefulWidget {
-  AfterLoginPage({Key key}) : super(key: key);
+  const AfterLoginPage({Key key}) : super(key: key);
 
   @override
   State<AfterLoginPage> createState() => _AfterLoginPageState();

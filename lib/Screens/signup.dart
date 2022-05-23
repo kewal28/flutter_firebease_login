@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_firebease_login/Screens/privacy.dart';
@@ -8,6 +11,8 @@ import 'package:flutter_firebease_login/config.dart';
 import 'package:flutter_firebease_login/utils.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key key}) : super(key: key);
@@ -20,6 +25,8 @@ class _SignUpState extends State<SignUp> {
   UserService userService = UserService();
   Utils utils = Utils();
   String errorMessage;
+  File imageFile;
+  String img = "";
 
   final _fromSignup = GlobalKey<FormState>();
   final TextEditingController nameController = TextEditingController();
@@ -83,42 +90,22 @@ class _SignUpState extends State<SignUp> {
         },
       ),
     );
+    final signupButton = Utils.getFormButton("Sing Up", onPress: () async {
+      if (_fromSignup.currentState.validate()) {
+        await userService.singUp(emailController.text, passwordController.text,
+            nameController.text, mobileController.text);
+        if (utils.checkUserLogin(context)) {
+          Fluttertoast.showToast(msg: Config.signUpMsg);
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AfterLoginPage(),
+            ),
+          );
+        }
+      }
+    });
 
-    final signupButton = Material(
-      child: ElevatedButton.icon(
-          style: ButtonStyle(
-            backgroundColor:
-                MaterialStateProperty.all<Color>(Config.baseColorDart),
-          ),
-          label: const Text("Sing Up"),
-          icon: const Icon(
-            Icons.arrow_right,
-            color: Colors.white,
-          ),
-          onPressed: () async {
-            if (_fromSignup.currentState.validate()) {
-              await userService.singUp(
-                  emailController.text,
-                  passwordController.text,
-                  nameController.text,
-                  mobileController.text);
-              if (utils.checkUserLogin(context)) {
-                Fluttertoast.showToast(msg: Config.signUpMsg);
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const AfterLoginPage(),
-                  ),
-                );
-              }
-            }
-          }
-          // onPressed: () {
-          //   Navigator.pushReplacement(context,
-          //       MaterialPageRoute(builder: (context) => ProductListPage()));
-          // },
-          ),
-    );
     double width = 100;
     MediaQueryData mediaQuery;
     if (!kIsWeb) {
@@ -156,6 +143,29 @@ class _SignUpState extends State<SignUp> {
                             fontSize: 14.0,
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        GestureDetector(
+                          onTap: () => _imageSelecter(context),
+                          child: Center(
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.black12,
+                              ),
+                              width: 100,
+                              height: 100,
+                              child: imageFile == null
+                                  ? img.isEmpty
+                                      ? const Icon(Icons.image, size: 50)
+                                      : Image.network(img)
+                                  : Image.file(
+                                      imageFile,
+                                    ),
+                            ),
                           ),
                         ),
                         const SizedBox(
@@ -244,5 +254,96 @@ class _SignUpState extends State<SignUp> {
         ),
       ),
     );
+  }
+
+  void _imageSelecter(context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bc) {
+        return SizedBox(
+          height: MediaQuery.of(context).size.height * .10,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(
+                onTap: () => _getFromCamera(),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * .50,
+                  child: Column(
+                    children: const [
+                      SizedBox(height: 20),
+                      Icon(Icons.camera),
+                      Text('Camera'),
+                    ],
+                  ),
+                ),
+              ),
+              const Divider(
+                thickness: 5,
+              ),
+              GestureDetector(
+                onTap: () => _getFromGallery(),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * .50,
+                  child: Column(
+                    children: const [
+                      SizedBox(height: 20),
+                      Icon(Icons.image),
+                      Text('Gallery'),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  _getFromGallery() async {
+    XFile pickedFile = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      setState(() {
+        imageFile = File(pickedFile.path);
+        Navigator.pop(context);
+      });
+    }
+  }
+
+  _getFromCamera() async {
+    XFile pickedFile = await ImagePicker().pickImage(
+      source: ImageSource.camera,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      setState(() {
+        imageFile = File(pickedFile.path);
+        Navigator.pop(context);
+      });
+    }
+  }
+
+  uploadProfileImage() async {
+    User user = FirebaseAuth.instance.currentUser;
+    var path = imageFile.path;
+    var filename = path.split("/").last;
+    var userId = user.uid;
+    Reference reference =
+        FirebaseStorage.instance.ref().child('products/$userId/$filename');
+    UploadTask uploadTask = reference.putFile(imageFile);
+    TaskSnapshot snapshot = await uploadTask;
+    var imageUrl = await snapshot.ref.getDownloadURL();
+
+    setState(() {
+      img = imageUrl;
+    });
   }
 }

@@ -83,6 +83,20 @@ class Utils {
     }
   }
 
+  static getFormButton(String text, {onPress}) {
+    return ElevatedButton.icon(
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(Config.baseColorDart),
+      ),
+      label: Text(text),
+      icon: const Icon(
+        Icons.arrow_right,
+        color: Colors.white,
+      ),
+      onPressed: onPress,
+    );
+  }
+
   static getAppBar(String title, BuildContext context) {
     return AppBar(
       title: Text(Config.name,
