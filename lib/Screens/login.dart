@@ -41,20 +41,24 @@ class _LoginState extends State<Login> {
         emailController, const Icon(Icons.email_outlined),
         keyboardType: TextInputType.emailAddress);
     String validationPassword = "password";
-    final passwordField = Utils.getFormField("Password", validationPassword,
-        passwordController, const Icon(Icons.password_rounded),
-        keyboardType: TextInputType.emailAddress,
-        obscureText: _isObscure,
-        suffixIcon: IconButton(
-          icon: Icon(
-            _isObscure ? Icons.visibility : Icons.visibility_off,
-          ),
-          onPressed: () {
-            setState(() {
-              _isObscure = !_isObscure;
-            });
-          },
-        ));
+    final passwordField = Utils.getFormField(
+      "Password",
+      validationPassword,
+      passwordController,
+      const Icon(Icons.password_rounded),
+      keyboardType: TextInputType.emailAddress,
+      obscureText: _isObscure,
+      suffixIcon: IconButton(
+        icon: Icon(
+          _isObscure ? Icons.visibility : Icons.visibility_off,
+        ),
+        onPressed: () {
+          setState(() {
+            _isObscure = !_isObscure;
+          });
+        },
+      ),
+    );
     final loginButton = Utils.getFormButton("Login", onPress: () async {
       if (_fromLogin.currentState.validate()) {
         await userService.singIn(emailController.text, passwordController.text);

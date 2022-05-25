@@ -83,7 +83,7 @@ class Utils {
     }
   }
 
-  static getFormButton(String text, {onPress}) {
+  static getFormButton(String text, {onPress = null}) {
     return ElevatedButton.icon(
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all<Color>(Config.baseColorDart),

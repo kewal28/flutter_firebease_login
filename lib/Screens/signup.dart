@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -92,8 +93,11 @@ class _SignUpState extends State<SignUp> {
     );
     final signupButton = Utils.getFormButton("Sing Up", onPress: () async {
       if (_fromSignup.currentState.validate()) {
+        if (imageFile != null) {
+          await uploadProfileImage();
+        }
         await userService.singUp(emailController.text, passwordController.text,
-            nameController.text, mobileController.text);
+            nameController.text, mobileController.text, img);
         if (utils.checkUserLogin(context)) {
           Fluttertoast.showToast(msg: Config.signUpMsg);
           Navigator.pushReplacement(
@@ -332,18 +336,26 @@ class _SignUpState extends State<SignUp> {
   }
 
   uploadProfileImage() async {
-    User user = FirebaseAuth.instance.currentUser;
     var path = imageFile.path;
-    var filename = path.split("/").last;
-    var userId = user.uid;
-    Reference reference =
-        FirebaseStorage.instance.ref().child('products/$userId/$filename');
-    UploadTask uploadTask = reference.putFile(imageFile);
-    TaskSnapshot snapshot = await uploadTask;
-    var imageUrl = await snapshot.ref.getDownloadURL();
-
-    setState(() {
-      img = imageUrl;
-    });
+    try {
+      var filename = path.split("/").last;
+      Reference reference = FirebaseStorage.instance
+          .ref()
+          .child('users_profile_pic')
+          .child(filename);
+      UploadTask uploadTask = reference.putFile(
+          imageFile,
+          SettableMetadata(
+            contentType: "image/jpeg",
+          ));
+      TaskSnapshot snapshot = await uploadTask;
+      var imageUrl = await snapshot.ref.getDownloadURL();
+      log(imageUrl);
+      setState(() {
+        img = imageUrl;
+      });
+    } on FirebaseException catch (e) {
+      log(e.message);
+    }
   }
 }
