@@ -2,7 +2,7 @@
 
 In this app we will create login, signup and forget password using firebase flutter project.
 
-Flutter Version: 2.10.4
+Flutter Version: 3.5.4
 
 ## Getting Started
 
@@ -14,8 +14,10 @@ This project is a starting point for a Flutter application.
 firebase_core: ^1.13.1
 firebase_auth: ^3.3.10
 cloud_firestore: ^3.1.10
-fluttertoast: ^7.1.6
+fluttertoast: ^8.2.10
 keyboard_dismisser: ^2.0.1
+image_picker: ^0.8.4+11
+firebase_storage: ^10.2.9
 ```
 
 ## First You have to clone this repo.
