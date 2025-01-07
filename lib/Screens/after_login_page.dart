@@ -15,7 +15,7 @@ class AfterLoginPage extends StatefulWidget {
 
 class _AfterLoginPageState extends State<AfterLoginPage> {
   User? user = FirebaseAuth.instance.currentUser;
-  UserModel loggedInUser = UserModel();
+  UserModel? loggedInUser;
   String name = "Guest";
   String email = "guest@gmail.com";
 
@@ -28,8 +28,8 @@ class _AfterLoginPageState extends State<AfterLoginPage> {
         .get()
         .then((value) {
       loggedInUser = UserModel.fromMap(value.data());
-      name = loggedInUser.name;
-      email = loggedInUser.email;
+      name = loggedInUser!.name;
+      email = loggedInUser!.email;
       setState(() {});
     });
   }

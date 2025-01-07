@@ -193,7 +193,7 @@ class Utils {
 
   getLoginUser(context) async {
     User? user = FirebaseAuth.instance.currentUser;
-    UserModel loggedInUser = UserModel();
+    UserModel? loggedInUser;
     FirebaseFirestore.instance
         .collection("users")
         .doc(user!.uid)

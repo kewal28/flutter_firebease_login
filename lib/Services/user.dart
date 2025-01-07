@@ -52,14 +52,8 @@ class UserService {
     if (user == null) {
       return;
     }
-    
-    UserModel userModel = UserModel();
-    userModel.email = user.email!;
-    userModel.uid = user.uid;
-    userModel.name = name;
-    userModel.phone = phone;
-    userModel.phone = phone;
 
+    UserModel userModel = UserModel(uid: user.uid, email: user.email!, phone: phone, name: name, img: img);
     await users.doc(user.uid).set(userModel.toMap());
     Fluttertoast.showToast(msg: Config.signUpMsg);
   }
