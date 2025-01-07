@@ -11,7 +11,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 
 class Login extends StatefulWidget {
-  const Login({Key key}) : super(key: key);
+  const Login({super.key});
 
   @override
   _LoginState createState() => _LoginState();
@@ -32,7 +32,7 @@ class _LoginState extends State<Login> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  String errorMessage;
+  late String errorMessage;
   bool _isObscure = true;
   @override
   Widget build(BuildContext context) {
@@ -60,7 +60,7 @@ class _LoginState extends State<Login> {
       ),
     );
     final loginButton = Utils.getFormButton("Login", onPress: () async {
-      if (_fromLogin.currentState.validate()) {
+      if (_fromLogin.currentState!.validate()) {
         await userService.singIn(emailController.text, passwordController.text);
         if (utils.checkUserLogin(context)) {
           Fluttertoast.showToast(msg: Config.loginMsg);
@@ -135,7 +135,7 @@ class _LoginState extends State<Login> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const Privacy(),
+                                      builder: (context) => Privacy(),
                                     ))
                               },
                               child: Text(

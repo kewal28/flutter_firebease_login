@@ -5,7 +5,7 @@ class UserModel {
   String name;
   String img;
 
-  UserModel({this.uid, this.email, this.phone, this.name, this.img});
+  UserModel({required this.uid, required this.email, required this.phone, required this.name, required this.img});
 
   factory UserModel.fromMap(map) {
     return UserModel(

@@ -16,7 +16,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class SignUp extends StatefulWidget {
-  const SignUp({Key key}) : super(key: key);
+  const SignUp({super.key});
 
   @override
   _SignUpState createState() => _SignUpState();
@@ -25,8 +25,8 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   UserService userService = UserService();
   Utils utils = Utils();
-  String errorMessage;
-  File imageFile;
+  String? errorMessage;
+  File? imageFile;
   String img = "";
 
   final _fromSignup = GlobalKey<FormState>();
@@ -92,11 +92,9 @@ class _SignUpState extends State<SignUp> {
       ),
     );
     final signupButton = Utils.getFormButton("Sing Up", onPress: () async {
-      if (_fromSignup.currentState.validate()) {
-        if (imageFile != null) {
-          await uploadProfileImage();
-        }
-        await userService.singUp(emailController.text, passwordController.text,
+      if (_fromSignup.currentState!.validate()) {
+        await uploadProfileImage();
+              await userService.singUp(emailController.text, passwordController.text,
             nameController.text, mobileController.text, img);
         if (utils.checkUserLogin(context)) {
           Fluttertoast.showToast(msg: Config.signUpMsg);
@@ -167,7 +165,7 @@ class _SignUpState extends State<SignUp> {
                                       ? const Icon(Icons.image, size: 50)
                                       : Image.network(img)
                                   : Image.file(
-                                      imageFile,
+                                      imageFile!,
                                     ),
                             ),
                           ),
@@ -199,7 +197,7 @@ class _SignUpState extends State<SignUp> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const Privacy(),
+                                      builder: (context) => Privacy(),
                                     ))
                               },
                               child: Text(
@@ -308,7 +306,7 @@ class _SignUpState extends State<SignUp> {
   }
 
   _getFromGallery() async {
-    XFile pickedFile = await ImagePicker().pickImage(
+    XFile? pickedFile = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 1800,
       maxHeight: 1800,
@@ -322,7 +320,7 @@ class _SignUpState extends State<SignUp> {
   }
 
   _getFromCamera() async {
-    XFile pickedFile = await ImagePicker().pickImage(
+    XFile? pickedFile = await ImagePicker().pickImage(
       source: ImageSource.camera,
       maxWidth: 1800,
       maxHeight: 1800,
@@ -336,7 +334,7 @@ class _SignUpState extends State<SignUp> {
   }
 
   uploadProfileImage() async {
-    var path = imageFile.path;
+    var path = imageFile!.path;
     try {
       var filename = path.split("/").last;
       Reference reference = FirebaseStorage.instance
@@ -344,7 +342,7 @@ class _SignUpState extends State<SignUp> {
           .child('users_profile_pic')
           .child(filename);
       UploadTask uploadTask = reference.putFile(
-          imageFile,
+          imageFile!,
           SettableMetadata(
             contentType: "image/jpeg",
           ));
@@ -355,7 +353,7 @@ class _SignUpState extends State<SignUp> {
         img = imageUrl;
       });
     } on FirebaseException catch (e) {
-      log(e.message);
+      log(e.message!);
     }
   }
 }

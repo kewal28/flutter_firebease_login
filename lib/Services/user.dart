@@ -8,7 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 class UserService {
   final _auth = FirebaseAuth.instance;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
-  String errorMessage;
+  late String errorMessage;
 
   singIn(String email, String password) async {
     try {
@@ -48,11 +48,13 @@ class UserService {
   }
 
   void saveProfileData(name, phone, img) async {
-    User user = _auth.currentUser;
-
+    User? user = _auth.currentUser;
+    if (user == null) {
+      return;
+    }
+    
     UserModel userModel = UserModel();
-
-    userModel.email = user.email;
+    userModel.email = user.email!;
     userModel.uid = user.uid;
     userModel.name = name;
     userModel.phone = phone;

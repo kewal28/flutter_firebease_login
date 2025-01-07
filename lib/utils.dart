@@ -186,17 +186,17 @@ class Utils {
   }
 
   bool checkUserLogin(context) {
-    User user = FirebaseAuth.instance.currentUser;
+    User? user = FirebaseAuth.instance.currentUser;
     bool checkLogin = user != null ? true : false;
     return checkLogin;
   }
 
   getLoginUser(context) async {
-    User user = FirebaseAuth.instance.currentUser;
+    User? user = FirebaseAuth.instance.currentUser;
     UserModel loggedInUser = UserModel();
     FirebaseFirestore.instance
         .collection("users")
-        .doc(user.uid)
+        .doc(user!.uid)
         .get()
         .then((value) {
       loggedInUser = UserModel.fromMap(value.data());

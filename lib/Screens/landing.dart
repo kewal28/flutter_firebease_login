@@ -6,7 +6,7 @@ import 'package:flutter_firebease_login/Screens/login.dart';
 import 'package:flutter_firebease_login/config.dart';
 
 class Landing extends StatefulWidget {
-  const Landing({Key key}) : super(key: key);
+  const Landing({super.key});
 
   @override
   _LandingState createState() => _LandingState();
@@ -16,7 +16,7 @@ class _LandingState extends State<Landing> {
   @override
   void initState() {
     super.initState();
-    User user = FirebaseAuth.instance.currentUser;
+    User? user = FirebaseAuth.instance.currentUser;
     bool checkLogin = user != null ? true : false;
     if (checkLogin) {
       Timer(

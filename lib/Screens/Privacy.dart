@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_firebease_login/utils.dart';
 
 class Privacy extends StatefulWidget {
-  const Privacy({Key key}) : super(key: key);
+  const Privacy({super.key});
 
   @override
   State<Privacy> createState() => _PrivacyState();

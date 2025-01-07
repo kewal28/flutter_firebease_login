@@ -7,7 +7,7 @@ import 'package:flutter_firebease_login/utils.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 
 class ForgetPassword extends StatefulWidget {
-  const ForgetPassword({Key key}) : super(key: key);
+  const ForgetPassword({super.key});
 
   @override
   _ForgetPasswordState createState() => _ForgetPasswordState();
@@ -26,7 +26,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  String errorMessage;
+  late String errorMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
         keyboardType: TextInputType.emailAddress);
     final forgetPasswordButton =
         Utils.getFormButton("Forget Password", onPress: () async {
-      if (_fromForgetPassword.currentState.validate()) {
+      if (_fromForgetPassword.currentState!.validate()) {
         await userService.forgetPassword(emailController.text);
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => const Login()));

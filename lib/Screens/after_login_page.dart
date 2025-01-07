@@ -7,14 +7,14 @@ import 'package:flutter_firebease_login/config.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class AfterLoginPage extends StatefulWidget {
-  const AfterLoginPage({Key key}) : super(key: key);
+  const AfterLoginPage({super.key});
 
   @override
   State<AfterLoginPage> createState() => _AfterLoginPageState();
 }
 
 class _AfterLoginPageState extends State<AfterLoginPage> {
-  User user = FirebaseAuth.instance.currentUser;
+  User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
   String name = "Guest";
   String email = "guest@gmail.com";
@@ -24,7 +24,7 @@ class _AfterLoginPageState extends State<AfterLoginPage> {
     super.initState();
     FirebaseFirestore.instance
         .collection("users")
-        .doc(user.uid)
+        .doc(user?.uid)
         .get()
         .then((value) {
       loggedInUser = UserModel.fromMap(value.data());
@@ -100,7 +100,7 @@ class _AfterLoginPageState extends State<AfterLoginPage> {
       });
     } on FirebaseAuthException catch (error) {
       // print(error);
-      Fluttertoast.showToast(msg: error.message);
+      Fluttertoast.showToast(msg: error.message!);
     }
   }
 }
